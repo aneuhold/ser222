@@ -14,8 +14,11 @@ public class DoubleOrderedList<T> extends DoubleList<T> implements OrderedListAD
   }
   
   /**
-   * Adds an element to the ordered list using the comparable interface.
+   * Adds an element to the ordered list using the comparable interface. The
+   * list is sorted where the first is the highest value and last is the 
+   * lowest value.
    * 
+   * @param element the element to add
    * @throws NonComparableElementException if the element does not implement
    * the comparable interface.
    */
@@ -61,5 +64,6 @@ public class DoubleOrderedList<T> extends DoubleList<T> implements OrderedListAD
         }
       }      
     }
+    size++;
   }
 }
