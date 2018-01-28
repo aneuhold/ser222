@@ -53,12 +53,14 @@ public class DoubleOrderedList<T> extends DoubleList<T> implements OrderedListAD
         last = newNode;
       } else {
         DoubleNode scan = first.getNext();
-        while (scan != null) {
+        Boolean placed = false;
+        while (scan != null && !placed) {
           if (e.compareTo(scan.getElement()) >= 0) {
             newNode.setPrevious(scan.getPrevious());
             scan.getPrevious().setNext(newNode);
             scan.setPrevious(newNode);
             newNode.setNext(scan);
+            placed = true;
           }
           scan = scan.getNext();
         }

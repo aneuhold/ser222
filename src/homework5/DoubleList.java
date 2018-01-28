@@ -126,15 +126,14 @@ public class DoubleList<T> implements ListADT<T> {
   
   @Override
   public String toString() {
-    StringBuilder result = new StringBuilder();
+    String result = "";
     if (size == 0) {
-      result.append("empty");
+      result += ("empty");
     } else {
-      DoubleNode current = last;
-      result.append(current.getElement() + " ");
-      while (current.getPrevious() != null) {
+      DoubleNode<T> current = last;
+      while (current != null) {
+        result += (current.getElement().toString() + " ");
         current = current.getPrevious();
-        result.append(current.getElement() + " ");
       }
     }
     return result.toString();
