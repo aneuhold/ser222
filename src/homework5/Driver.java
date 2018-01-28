@@ -66,6 +66,10 @@ public class Driver {
         list.removeLast();
         
         // Exceptions testing
+        DoubleNode testNode = new DoubleNode();
+        DoubleOrderedList list2 = new DoubleOrderedList();
+        //list2.add(testNode); //tests NonComparable Exception
+        list.removeLast(); //tests EmptyCollectionException
         
     }
 }
