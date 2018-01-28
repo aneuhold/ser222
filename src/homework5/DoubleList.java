@@ -7,9 +7,9 @@ package homework5;
  * @param <T>
  */
 public class DoubleList<T> implements ListADT<T> {
-  private DoubleNode<T> first;
-  private DoubleNode<T> last;
-  private int size;
+  protected DoubleNode<T> first;
+  protected DoubleNode<T> last;
+  protected int size;
   
   public DoubleList() {
     first = null;
