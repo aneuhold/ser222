@@ -1,5 +1,6 @@
 package homework5;
 
+
 /**
  * NonComparableElementException  represents the situation in which an attempt 
  * is made to add an element that is not comparable to an ordered collection

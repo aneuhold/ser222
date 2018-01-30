@@ -1,5 +1,6 @@
 package homework5;
 
+
 /**
  * A class that extends the functionality from DoubleList by way of adding
  * a method that adds new elements, which are automatically sorted.

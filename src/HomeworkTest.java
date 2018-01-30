@@ -1,4 +1,4 @@
-import java.util.Arrays;
+import java.awt.List;
 
 public class HomeworkTest {
   public static void main(String[] args) {
@@ -10,10 +10,10 @@ public class HomeworkTest {
         actualCount++;
       }
     }
+    List list = new List();
     System.out.println(actualCount);
     double sum = n * (Math.log(n)/Math.log(2));
     System.out.println("Sum = " + sum);
   } 
-  
-  
+
 }

@@ -1,5 +1,6 @@
 package homework5;
 
+
 public class DoubleNode<T> {
   private DoubleNode<T> next;
   private DoubleNode<T> previous;

@@ -1,5 +1,6 @@
 package homework5;
 
+
 /**
  * A class that represents a doubly linked structure.
  * @author Anton G Neuhold Jr

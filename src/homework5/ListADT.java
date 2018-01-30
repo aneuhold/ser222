@@ -1,6 +1,7 @@
 package homework5;
 
 
+
 /**
 * ListADT defines the interface to a general list collection. Specific
 * types of lists will extend this interface to complete the

@@ -1,5 +1,6 @@
 package homework5;
 
+
 /**
  * Represents the situation in which a collection is empty.
  *
