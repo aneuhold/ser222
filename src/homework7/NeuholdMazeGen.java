@@ -14,11 +14,11 @@ public class NeuholdMazeGen
     private static final int LEVEL_HEIGHT = 25;
     private static final int LEVEL_WIDTH = 80;       
     
-    private static final char ICON_WALL = '#';           
+    private static final char ICON_WALL = '#';
     private static final char ICON_BLANK = ' ';
 
     /**
-     * Returns a 2D array containing a statically created maze with dimentions 80x24.
+     * Returns a 2D array containing a statically created maze with dimensions 80x24.
      * 
      * @return     2D array containing a maze 
      */
@@ -98,7 +98,7 @@ public class NeuholdMazeGen
         for (int y = 0; y < LEVEL_HEIGHT; y++)
             level[y][0] = ICON_WALL;
     
-        //left barrier
+        //right barrier
         for (int y = 0; y < LEVEL_HEIGHT; y++)
             level[y][LEVEL_WIDTH-1] = ICON_WALL;
             
@@ -108,7 +108,53 @@ public class NeuholdMazeGen
     //TODO: complete method.
     private static void makeMazeRecursive(char[][]level, int startX, int startY, int endX, int endY)
     {
-
+      if ((endX - startX < 2) || (endY - startY < 2))
+        return;
+      
+      /* Creates the new walls 1 away from the current walls to make sure 
+       * they are not right next to each other. */ 
+      int yWall = randomBounded(startX + 1, endX - 1);
+      int xWall = randomBounded(startY + 1, endY - 1);
+      
+      for (int i = startY; i <= endY; i++)
+        level[i][yWall] = ICON_WALL;
+      for (int i = startX; i <= endX; i++)
+        level[xWall][i] = ICON_WALL;
+      
+      /* Chooses the wall without a hole. 0 = North, 1 = East, 2 = South,
+       * 3 = West */
+      int solidWall = randomBounded(0, 4);
+      if (solidWall != 0) // North
+        level[randomBounded(startY, xWall - 1)][yWall] = ICON_BLANK;
+      if (solidWall != 1) // East
+        level[xWall][randomBounded(yWall + 1, endX)] = ICON_BLANK;
+      if (solidWall != 2) // South
+        level[randomBounded(xWall + 1, endY)][yWall] = ICON_BLANK;
+      if (solidWall != 3) // West
+        level[xWall][randomBounded(startX, yWall - 1)] = ICON_BLANK;
+      
+      // Top left quadrant
+      makeMazeRecursive(level, startX, startY, yWall - 1, xWall - 1);
+      // Top right quadrant
+      makeMazeRecursive(level, yWall + 1, startY, endX, xWall - 1);
+      // Bottom right quadrant
+      makeMazeRecursive(level, yWall + 1, xWall + 1, endX, endY);
+      // Bottom left quadrant
+      makeMazeRecursive(level, startX, xWall + 1, yWall - 1, endY);
+    }
+    
+    /**
+     * Provides a cleaner way to get a random value between two values
+     * 
+     * @param startValue the first value (inclusive)
+     * @param endValue the last value (inclusive)
+     * @return int the random value between those two numbers inclusive
+     */
+    private static int randomBounded(int startValue, int endValue) {
+      if (endValue - startValue == 0)
+        return startValue;
+      Random rand = new Random();
+      return rand.nextInt(endValue - startValue) + startValue;
     }
     
     /**
@@ -135,7 +181,7 @@ public class NeuholdMazeGen
      */
     public static void main(String[] args) {       
         //show static maze (uncomment for sample output)
-        //drawLevel(makeMazeStatic());
+        // drawLevel(makeMazeStatic());
         //show recursive maze
         drawLevel(makeMaze());
     }
