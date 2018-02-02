@@ -1,7 +1,8 @@
 package homework7;
 
 /**
- * Write a description of class Base_HW01 here.
+ * Creates a maze based on recursive design methodology, then
+ * prints it to the console. 
  * 
  * @author Anton Neuhold, Acuna
  * @version 1.0
@@ -66,7 +67,7 @@ public class NeuholdMazeGen
     {
         char level[][] = createBlankLevel();
         
-        makeMazeRecursive(level, 1, 1, LEVEL_WIDTH-2, LEVEL_HEIGHT-2); //TODO: may need to change but probably not.
+        makeMazeRecursive(level, 1, 1, LEVEL_WIDTH-2, LEVEL_HEIGHT-2); 
         
         return level;
     }
@@ -105,7 +106,16 @@ public class NeuholdMazeGen
         return level;
     }
 
-    //TODO: complete method.
+    /**
+     * Creates a maze recursively out of the provided level, given a start and end,
+     * x and y
+     * 
+     * @param level the level array for the entire maze area
+     * @param startX the start x value to build the maze inside of
+     * @param startY the start y value to build the maze inside of
+     * @param endX the end x value to build the maze inside of
+     * @param endY the end y value to build the maze inside of
+     */
     private static void makeMazeRecursive(char[][]level, int startX, int startY, int endX, int endY)
     {
       if ((endX - startX < 2) || (endY - startY < 2))
@@ -181,8 +191,9 @@ public class NeuholdMazeGen
      */
     public static void main(String[] args) {       
         //show static maze (uncomment for sample output)
-        // drawLevel(makeMazeStatic());
+        //drawLevel(makeMazeStatic());
         //show recursive maze
         drawLevel(makeMaze());
+        
     }
 }
