@@ -48,4 +48,9 @@ public class DoubleNode<T> {
   public void setElement(T element) {
     this.element = element;
   } 
+  
+  @Override
+  public String toString() {
+    return element.toString();
+  }
 }
