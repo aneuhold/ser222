@@ -23,6 +23,9 @@ public class HomeworkTest {
     System.out.println(actualCount);
     double sum = n * (Math.log(n)/Math.log(2));
     System.out.println("Sum = " + sum);
+    
+    String str = "test";
+    str.substring(0, str.length()-1);
   } 
 
 }
