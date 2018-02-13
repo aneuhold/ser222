@@ -1,31 +1,32 @@
-import java.util.LinkedList;
-import java.util.List;
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
-public class HomeworkTest {
-  public static void main(String[] args) {
-    int n =  1000;
-    int actualCount = 0;
-    for (int i = 1; i <= n; i++) {
-      for (int j = 1; j <= n; j=j*2) {
-        actualCount++;
-      }
-    }
-    
-    List<Integer> list = new LinkedList();
-    list.add(1);
-    list.add(2);
-    list.add(3);
-    list.add(4);
-    list.add(5);
-    
-    System.out.println(list);
-    
-    System.out.println(actualCount);
-    double sum = n * (Math.log(n)/Math.log(2));
-    System.out.println("Sum = " + sum);
-    
-    String str = "test";
-    str.substring(0, str.length()-1);
-  } 
+import homework5.DoubleNode;
 
+class ReverseIterator<T> implements Iterator<T>{
+  private int modChange;
+  private DoubleNode current;
+
+  // Constructor
+  public ReverseIterator(){
+     modChange = modCount;
+     current = tail; // Assuming tail is in the doubly linked list's variables
+  }
+  // Returns true if this iterator has at least one more element
+  public boolean hasNext() throws ConcurrentModificationException{
+     if (modChange != modCount)
+       throw new ConcurrentModificationException();
+     
+     return (current != null);
+  }
+  // Returns the next element in the iteration
+  public int next() throws NoSuchElementException{
+     if (current == null) 
+       throw new NoSuchElementException();
+     int result = current.getElement();
+     current = current.getPrevious();
+     return result;
+  }
+  // Remove not supported, left out for brevity.
 }
