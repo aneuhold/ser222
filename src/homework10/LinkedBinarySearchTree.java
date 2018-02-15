@@ -26,7 +26,7 @@ implements BinarySearchTreeADT<T> {
   public LinkedBinarySearchTree(T element) 
   {
     super(element);
-
+ 
     if (!(element instanceof Comparable))
       throw new NonComparableElementException("LinkedBinarySearchTree");
   }
@@ -300,6 +300,52 @@ implements BinarySearchTreeADT<T> {
   }
 
   /**
+   * Returns a reference to the specified target element if it is
+   * found in this binary tree.  Throws a ElementNotFoundException if
+   * the specified target element is not found in the binary tree.
+   *
+   * @param targetElement the element being sought in this tree
+   * @return a reference to the specified target
+   * @throws ElementNotFoundException if the element is not in the tree
+   */
+  @Override
+  public T find(T targetElement) throws ElementNotFoundException {
+    BinaryTreeNode<T> current = root;
+    Comparable targetEl = (Comparable)targetElement;
+    
+    while (current != null && !current.getElement().equals(targetElement)) {
+      Comparable currentEl = (Comparable)current.getElement();
+      if (targetEl.compareTo(currentEl) < 0)
+        current = current.getLeft();
+      else 
+        current = current.getRight();
+    }
+    
+    if (current == null)
+      throw new ElementNotFoundException(this.getClass().toString());
+    
+    return current.getElement();
+  }
+
+  /**
+   * Returns true if this tree contains an element that matches the
+   * specified target element and false otherwise.
+   *
+   * @param targetElement the element being sought in this tree
+   * @return true if the element in is this tree, false otherwise
+   */
+  @Override
+  public boolean contains(T targetElement) 
+  {
+    try {
+      find(targetElement);
+      return true;
+    } catch (ElementNotFoundException e) {
+      return false;
+    }
+  }
+
+  /**
    * Removes the node with the highest value from the binary
    * search tree and returns a reference to its element.  Throws an
    * EmptyCollectionException if this tree is empty. 
@@ -308,9 +354,10 @@ implements BinarySearchTreeADT<T> {
    * @throws EmptyCollectionException if the tree is empty
    */
   @Override
-  public T removeMax() throws EmptyCollectionException 
-  {
-    // TODO: May need to implement.
+  public T removeMax() { // Implemented because the ADT requires it
+    T max = findMax();
+    removeElement(max);
+    return max;
   }
 
   /**
@@ -322,9 +369,15 @@ implements BinarySearchTreeADT<T> {
    * @throws EmptyCollectionException if the tree is empty
    */
   @Override
-  public T findMin() throws EmptyCollectionException 
-  {
-    // TODO: May need to implement.
+  public T findMin() { // Implemented because the ADT requires it
+    if (isEmpty())
+      throw new EmptyCollectionException(this.getClass().toString());
+    
+    BinaryTreeNode<T> current = root;
+    while (current.getLeft() != null)
+      current = current.getLeft();
+    
+    return current.getElement();
   }
 
   /**
@@ -336,46 +389,15 @@ implements BinarySearchTreeADT<T> {
    * @return the element with the highest value
    * @throws EmptyCollectionException if the tree is empty
    */
-  @Override
-  public T findMax() throws EmptyCollectionException 
-  {
-    // TODO: May need to implement.
-  }
-
-  // TODO: Implement find.
-  // TODO: Implement contains.
-
-  /**
-   * Returns the left subtree of the root of this tree.
-   *
-   * @return a link to the left subtree fo the tree
-   */
-  @Override
-  public LinkedBinarySearchTree<T> getLeft()
-  { 
-    // TODO: May need to implement.
-  }
-
-  /**
-   * Returns the right subtree of the root of this tree.
-   *
-   * @return a link to the right subtree of the tree
-   */
-  @Override
-  public LinkedBinarySearchTree<T> getRight()
-  {
-    // TODO: May need to implement.
-  }
-
-  /**
-   * Returns a reference to the specified target element if it is
-   * found in this tree.  
-   *
-   * @param targetElement the element being sought in the tree
-   * @param next the tree node to begin searching on
-   */
-  private BinaryTreeNode<T> findNode(T targetElement, BinaryTreeNode<T> next) 
-  {
-    // TODO: May need to implement.
+  @Override //Implemented because the ADT requires it
+  public T findMax() throws EmptyCollectionException { 
+    if (isEmpty())
+      throw new EmptyCollectionException(this.getClass().toString());
+    
+    BinaryTreeNode<T> current = root;
+    while (current.getRight() != null)
+      current = current.getRight();
+    
+    return current.getElement();
   }
 }

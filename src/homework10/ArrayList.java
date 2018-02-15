@@ -45,7 +45,7 @@ public abstract class ArrayList<T> implements ListADT<T>, Iterable<T>
    */
   protected void expandCapacity()
   {
-    list = Arrays.copyOf(list, list.length*2);  
+    list = Arrays.copyOf(list, list.length*2);
   }
 
   /**
@@ -58,9 +58,13 @@ public abstract class ArrayList<T> implements ListADT<T>, Iterable<T>
   public T removeLast() throws EmptyCollectionException
   {
     if (isEmpty()) {
-      throw new EmptyCollectionException();
-      // TODO: Implement the method
+      throw new EmptyCollectionException(this.getClass().toString());
     }
+    T result = last();
+    list[rear - 1] = null;
+    rear --;
+    modCount++;
+    return result;
   }
 
   /**
@@ -72,14 +76,24 @@ public abstract class ArrayList<T> implements ListADT<T>, Iterable<T>
   @Override
   public T removeFirst() throws EmptyCollectionException
   {
-    //TODO: Implement this.
+    if (isEmpty())
+      throw new EmptyCollectionException(this.getClass().toString());
+    
+    T result = first();
+    
+    for (int scan=0; scan < rear; scan++)
+      list[scan] = list[scan+1];
+    
+    rear--;
+    modCount++;
+    return result;
   }
 
   /**
    * Removes and returns the specified element.
    *
    * @param  element the element to be removed and returned from the list
-   * @return the removed elememt
+   * @return the removed element
    * @throws ElementNotFoundException if the element is not in the list
    */
   @Override
