@@ -4,7 +4,8 @@ package homework10;
  * with links.
  * 
  * @author Lewis and Chase
- * @version 4.0
+ * @author Anton G Neuhold Jr
+ * @version 5.0
  */
 public class LinkedBinarySearchTree<T> extends LinkedBinaryTree<T> 
 implements BinarySearchTreeADT<T> {
@@ -399,5 +400,14 @@ implements BinarySearchTreeADT<T> {
       current = current.getRight();
     
     return current.getElement();
+  }
+  
+  /**
+   * Driver for Unit 10 Homework
+   * 
+   * @param args
+   */
+  public static void main(String[] args) {
+    
   }
 }
