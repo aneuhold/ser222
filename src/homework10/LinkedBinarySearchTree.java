@@ -1,4 +1,8 @@
 package homework10;
+
+import java.util.Iterator;
+import java.util.Random;
+
 /**
  * LinkedBinarySearchTree implements the BinarySearchTreeADT interface 
  * with links.
@@ -408,6 +412,113 @@ implements BinarySearchTreeADT<T> {
    * @param args
    */
   public static void main(String[] args) {
+    // ArrayUnorderedList
+    ArrayUnorderedList<Integer> aL = new ArrayUnorderedList();
+    System.out.println("The array list so far: " + aL);
+    System.out.println("Adding elements...");
+    aL.addToRear(12);
+    aL.addToRear(13);
+    System.out.println("The array list so far: " + aL);
+    aL.addToFront(21);
+    aL.addToFront(33);
+    System.out.println("The array list so far: " + aL + "\n");
     
+    // ArrayList
+    System.out.println("Removing elements...");
+    aL.removeFirst();
+    System.out.println("After removing the first element: " + aL);
+    aL.removeLast();
+    System.out.println("After removing the last element: " + aL);
+    aL.removeFirst();
+    aL.removeLast();
+    System.out.println("After removing all elements: " + aL);
+    // aL.removeFirst();
+    System.out.println("Adding more elements...");
+    aL.addToFront(35); aL.addToFront(22); aL.addToFront(37); 
+    aL.addToFront(93); aL.addToFront(5); aL.addToFront(16); 
+    System.out.println("The array list so far: " + aL);
+    // Iterator itr = aL.iterator();
+    // System.out.println("The first element returned by the iterator is: " + itr.next());
+    // System.out.println(aL.removeFirst() + " has been removed from the underlying list...");
+    // System.out.println("The next method is being called from the iterator: " + itr.next());
+    System.out.println("Creating a new list with size 2...");
+    ArrayUnorderedList<Integer> aLSmall = new ArrayUnorderedList(2);
+    System.out.println("Adding values...");
+    aLSmall.addToFront(33); aLSmall.addToFront(44); aLSmall.addToFront(55);
+    aLSmall.addToFront(33); aLSmall.addToFront(44); aLSmall.addToFront(55);
+    System.out.println("The small array list so far: " + aL + "\n");
+    
+    // LinkedBinaryTree
+    LinkedBinaryTree lbt = new LinkedBinaryTree(5, new LinkedBinaryTree(8), new LinkedBinaryTree(13));
+    System.out.println("The tree so far printed inorder: " + lbt);
+    System.out.println("Making the tree a little taller...");
+    lbt = new LinkedBinaryTree(10, lbt, new LinkedBinaryTree(
+        11, new LinkedBinaryTree(33), new LinkedBinaryTree(55))
+    );
+    System.out.println("The tree so far printed inorder: " + lbt);
+    System.out.println("The root element is: " + lbt.getRootElement() +
+        " which should be the same as: " + lbt.getRootNode().getElement());
+    System.out.println("The right tree is: " + lbt.getRight() +
+        " and the left tree is: " + lbt.getLeft() +
+        " printed inorder.");
+    System.out.println("The size of the tree is: " + lbt.size());
+    System.out.println("The height of the tree is: " + lbt.getHeight());
+    System.out.println("Does the tree contain 11? " + lbt.contains(11) +
+        " What about 5? " + lbt.contains(5));
+    System.out.println("Printing the tree using the preorder iterator: ");
+    Iterator lbtItr = lbt.iteratorPreOrder();
+    while (lbtItr.hasNext())
+      System.out.print(lbtItr.next() + " ");
+    System.out.println("\n");
+    
+    // LinkedBinarySearchTree
+    System.out.println("Making a new LinkedBinarySearchTree...");
+    LinkedBinarySearchTree lbst = new LinkedBinarySearchTree(5);
+    lbst.addElement(7); lbst.addElement(10); lbst.addElement(3);
+    lbst.addElement(25); lbst.addElement(1);
+    System.out.println("The original tree inorder: " + lbst);
+    System.out.println("The left tree is: " + lbst.getLeft() +
+        " and the right tree is: " + lbst.getRight());
+    lbst.removeMax();
+    System.out.println("After removing max, the tree is: " + lbst);
+    lbst.removeMin();
+    System.out.println("After removing min, the tree is: " + lbst);
+    System.out.println("Adding more elements...");
+    lbst.addElement(8); lbst.addElement(45); lbst.addElement(6);
+    lbst.addElement(2);
+    System.out.println("The tree is now: " + lbst);
+    System.out.println("Does the tree contain 10? " + lbst.contains(10) +
+        "\nDoes it contain 4? " + lbst.contains(4));
+    System.out.println("Finding 45 results in: " + lbst.find(45));
+    // System.out.println("Finding 99 results in: " + lbst.find(99));
+    System.out.println("The tree is now: " + lbst + "\n");
+    
+    // Benchmarking
+    System.out.println("Benchmarking...");
+    Random rand = new Random();
+    LinkedBinarySearchTree<Integer> lbstBench = new LinkedBinarySearchTree();
+    LinkedBinaryTree<Integer> lbtBench;
+    for (int i = 0; i < 1000; i++)
+      lbstBench.addElement(rand.nextInt(1000));
+    lbtBench = new LinkedBinaryTree(lbstBench.root.getElement(), lbstBench.getLeft(), lbstBench.getRight());
+    
+    System.out.println("The LinkedBinarySearchTree contains: \t" + lbstBench + "\n");
+    System.out.println("The LinkedbinaryTree contains: \t\t" + lbtBench);
+    
+    Integer[] searchArray = new Integer[1000]; // Creating search values
+    for (int i = 0; i < searchArray.length; i++) 
+      searchArray[i] = rand.nextInt();
+    
+    double lbstTime = System.currentTimeMillis();
+    for (int search : searchArray)
+      lbstBench.contains(search);
+    lbstTime = System.currentTimeMillis() - lbstTime;
+    System.out.println("The time passed for the LinkedBinarySearchTree is: " + lbstTime + "ms");
+    
+    double lbtTime = System.currentTimeMillis();
+    for (int search : searchArray)
+      lbtBench.contains(search);
+    lbtTime = System.currentTimeMillis() - lbtTime;
+    System.out.println("The time passed for the LinkedBinaryTree is: " + lbtTime + "ms");
   }
 }

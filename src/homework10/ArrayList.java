@@ -217,11 +217,11 @@ public abstract class ArrayList<T> implements ListADT<T>, Iterable<T>
   @Override
   public String toString()
   {
+    // Edited so it would return only the values that weren't null
     String result = "";
 
-    for(T element : list)
-      result += element + " ";
-
+    for(int i = 0; i < rear; i++)
+      result += list[i] + " ";
     return result; 
   }
 

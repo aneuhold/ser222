@@ -55,6 +55,8 @@ public class LinkedBinaryTree<T> implements BinaryTreeADT<T>, Iterable<T>
   @Override
   public T getRootElement() throws EmptyCollectionException
   {
+    if (isEmpty())
+      throw new EmptyCollectionException(this.getClass().toString());
     return root.getElement();
   }
 
@@ -66,6 +68,8 @@ public class LinkedBinaryTree<T> implements BinaryTreeADT<T>, Iterable<T>
    */
   protected BinaryTreeNode<T> getRootNode() throws EmptyCollectionException
   {
+    if (isEmpty())
+      throw new EmptyCollectionException(this.getClass().toString());
     return root;
   }
 
@@ -77,7 +81,7 @@ public class LinkedBinaryTree<T> implements BinaryTreeADT<T>, Iterable<T>
   public LinkedBinaryTree<T> getLeft()
   {
     if (root.left != null)
-      return new LinkedBinaryTree<T>(root.left.getElement());
+      return getTree(root.getLeft());
     else
       return null;
   }
@@ -90,9 +94,26 @@ public class LinkedBinaryTree<T> implements BinaryTreeADT<T>, Iterable<T>
   public LinkedBinaryTree<T> getRight()
   {
     if (root.right != null)
-      return new LinkedBinaryTree<T>(root.right.getElement());
+      return getTree(root.getRight());
     else
       return null;
+  }
+  
+  private LinkedBinaryTree<T> getTree(BinaryTreeNode<T> root) {
+    LinkedBinaryTree<T> leftTree;
+    LinkedBinaryTree<T> rightTree;
+    
+    if (root.getLeft() != null)
+      leftTree = getTree(root.getLeft());
+    else
+      leftTree = new LinkedBinaryTree();
+    
+    if (root.getRight() != null)
+      rightTree = getTree(root.getRight());
+    else
+      rightTree = new LinkedBinaryTree();
+    
+    return new LinkedBinaryTree<T>(root.getElement(), leftTree, rightTree);
   }
 
   /**
@@ -114,6 +135,8 @@ public class LinkedBinaryTree<T> implements BinaryTreeADT<T>, Iterable<T>
   @Override
   public int size() 
   {
+    /* Size would be much more efficient as a private instance variable
+    that is accessed by this method.*/
     ArrayUnorderedList<T> temp = new ArrayUnorderedList<T>();
     inOrder(root, temp);
     return temp.size();
@@ -220,7 +243,7 @@ public class LinkedBinaryTree<T> implements BinaryTreeADT<T>, Iterable<T>
   {
     String result = "";
     for (T e : this)
-      result = e + " ";
+      result += e + " ";
     return result;
   }
 
