@@ -37,9 +37,12 @@ public class LinearProbingMap<Key, Value> implements Map<Key, Value> {
     int i = 0;
     boolean added = false;
     while (i < m && !added) {
-      if (entries[hash] == null || 
-          entries[hash].key.hashCode() == key.hashCode() ||
+      if (entries[hash] == null ||
           entries[hash].deleted == true) {
+        entries[hash] = new Entry(key, val);
+        added = true;
+        n++;
+      } else if (entries[hash].key.equals(key)) {
         entries[hash] = new Entry(key, val);
         added = true;
       } else {
@@ -47,7 +50,6 @@ public class LinearProbingMap<Key, Value> implements Map<Key, Value> {
         hash = hash(key, i);
       }
     }
-    if (added) {n++;}
   }
 
   @Override
@@ -59,7 +61,7 @@ public class LinearProbingMap<Key, Value> implements Map<Key, Value> {
         result == null && // the result is still not found
         entries[hash] != null) { // the current entry is not null
       if (!entries[hash].deleted &&
-          entries[hash].key.hashCode() == key.hashCode()) {
+          entries[hash].key.equals(key)) {
         result = entries[hash].value;
       } else {
         i++;
@@ -78,15 +80,15 @@ public class LinearProbingMap<Key, Value> implements Map<Key, Value> {
         !removed && // the value has still not been removed and
         entries[hash] != null) { // the current entry is not null
       if (!entries[hash].deleted &&
-          entries[hash].key.hashCode() == key.hashCode()) {
+          entries[hash].key.equals(key)) {
         entries[hash].deleted = true;
         removed = true;
+        n--;
       } else {
         i++;
         hash = hash(key, i);
       }
     }
-    if (removed) { n--; }
   }
 
   @Override
@@ -98,7 +100,7 @@ public class LinearProbingMap<Key, Value> implements Map<Key, Value> {
         !found && // the result is still not found
         entries[hash] != null) { // the current entry is not null
       if (!entries[hash].deleted &&
-          entries[hash].key.hashCode() == key.hashCode()) {
+          entries[hash].key.equals(key)) {
         found = true;
       } else {
         i++;

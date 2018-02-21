@@ -42,33 +42,41 @@ public class TwoProbeChainMap<Key, Value> implements Map<Key, Value> {
     int hash1 = hash(key);
     int hash2 = hash2(key);
     
-    if (table[hash1].size() <= table[hash2].size())
-      add(hash1, key, val);
+    boolean added = false;
+    
+    if (!overwrite(hash1, key, val)) // false if key isn't in hash1 location
+      added = overwrite(hash2, key, val);
     else
-      add(hash2, key, val);
+      added = true;
+    
+    if(!added && table[hash1].size() <= table[hash2].size()) {
+      table[hash1].add(new Entry(key, val));
+      n++;
+    } else if (!added) {
+      table[hash1].add(new Entry(key, val));
+      n++;
+    }
   }
   
   /**
-   * Adds the specified key and value to the given hash. If the key already
-   * exists, the corresponding value is overwritten.
+   * Attempts to find and overwrite a key if it already exists. Returns
+   * false if it was not found, and true if it was, and was overwritten.
    * 
    * @param hash The chosen hash value in the table
    * @param key The key to add
    * @param val The value to add.
+   * @return boolean True if found and overwritten
    */
-  private void add(int hash, Key key, Value val) {
+  private boolean overwrite(int hash, Key key, Value val) {
     boolean added = false;
-    for(Entry entry : table[hash])
-        if(key.hashCode() == entry.key.hashCode()) {
-            entry.value = val;
-            added = true;
-            // n not incremented because entry is overwritten
-        }
-    
-    if(!added) {
-         table[hash].add(new Entry(key, val));
-         n++;
+    for(Entry entry : table[hash]) {
+      if(key.equals(entry.key)) {
+        entry.value = val;
+        added = true;
+        // n not incremented because entry is overwritten
+      }
     }
+    return added;
   }
 
   @Override
@@ -77,11 +85,11 @@ public class TwoProbeChainMap<Key, Value> implements Map<Key, Value> {
     int hash2 = hash2(key);
     
     for(Entry entry : table[hash1]) {
-      if(key.hashCode() == entry.key.hashCode())
+      if(key.equals(entry.key))
         return entry.value;
     }
     for (Entry entry : table[hash2]) {
-      if(key.hashCode() == entry.key.hashCode())
+      if(key.equals(entry.key))
         return entry.value;
     }
     return null;
@@ -100,14 +108,14 @@ public class TwoProbeChainMap<Key, Value> implements Map<Key, Value> {
     boolean removed = false;
     
     for(Entry entry : table[hash1]) {
-      if(key.hashCode() == entry.key.hashCode()) { 
+      if(key.equals(entry.key)) { 
         table[hash1].remove(entry);
         removed = true;
       }
     }
     if (!removed) {
       for (Entry entry : table[hash2]) {
-        if(key.hashCode() == entry.key.hashCode()) {
+        if(key.equals(entry.key)) {
           table[hash2].remove(entry);
           removed = true; 
         }
@@ -122,11 +130,11 @@ public class TwoProbeChainMap<Key, Value> implements Map<Key, Value> {
     int hash2 = hash2(key);
     
     for(Entry entry : table[hash1]) {
-      if(key.hashCode() == entry.key.hashCode())
+      if(key.equals(entry.key))
         return true;
     }
     for (Entry entry : table[hash2]) {
-      if(key.hashCode() == entry.key.hashCode())
+      if(key.equals(entry.key))
         return true;
     }
     return false;
