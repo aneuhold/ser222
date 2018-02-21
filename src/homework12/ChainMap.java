@@ -55,7 +55,7 @@ public class ChainMap<Key, Value> implements Map<Key, Value> {
         for(Entry entry : entries[hash(key)])
             if(key.hashCode() == entry.key.hashCode()) {
                 entry.value = val;
-                added = true;
+                added = true; 
             }
         
         if(!added) {
